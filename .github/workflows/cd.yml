@@ -1,0 +1,22 @@
+name: CD Pipelin
+
+on:
+    workflow_run:
+        workflows: ["CI Pipeline"]
+        types:
+            - completed
+
+
+jobs:
+
+    build:
+
+        runs-on: self-hosted
+
+        steps:
+        - name: Pull Docker Image
+            run: sudo docker pull harshkishorgn/hello-world-flask-app:latest
+        - name: Delete Old docker container
+            run: sudo docker rm -f hello-world-flask-app-container || true
+        - name: Run Docker Container
+            run: sudo docker run -d -p 3000:3000 --name hello-world-flask-app harshkishorgn/hello-world-flask-app
