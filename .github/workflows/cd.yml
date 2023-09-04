@@ -11,9 +11,11 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: Stop and Remove Old Docker Container
+        run: |
+          docker stop hello-world-flask-app || true
+          docker rm hello-world-flask-app || true
       - name: Pull Docker Image
         run: sudo docker pull harshkishorgn/hello-world-flask-app:latest
-      - name: Delete Old docker container
-        run: sudo docker rm -f hello-world-flask-app-container || true
       - name: Run Docker Container
         run: sudo docker run -d -p 3000:3000 --name hello-world-flask-app harshkishorgn/hello-world-flask-app
