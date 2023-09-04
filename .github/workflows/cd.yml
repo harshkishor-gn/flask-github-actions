@@ -13,8 +13,11 @@ jobs:
     steps:
       - name: Stop and Remove Old Docker Container
         run: |
-          docker stop hello-world-flask-app || true
-          docker rm hello-world-flask-app || true
+          # Stop and remove the container if it exists
+          if [ "$(docker ps -a -q -f name=hello-world-flask-app)" ]; then
+            docker stop hello-world-flask-app
+            docker rm hello-world-flask-app
+          fi
       - name: Pull Docker Image
         run: sudo docker pull harshkishorgn/hello-world-flask-app:latest
       - name: Run Docker Container
