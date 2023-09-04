@@ -14,13 +14,11 @@ jobs:
       - name: Stop and Remove Old Docker Container
         run: |
           # Stop and remove the container if it exists
-          if [ "$(docker ps -a -q -f name=hello-world-flask-app)" ]; then
-            docker stop hello-world-flask-app
-            docker rm hello-world-flask-app
+          if [ "$(sudo docker ps -a -q -f name=hello-world-flask-app)" ]; then
+            sudo docker stop hello-world-flask-app
+            sudo docker rm hello-world-flask-app
           fi
       - name: Pull Docker Image
         run: sudo docker pull harshkishorgn/hello-world-flask-app:latest
-      - name: Delay before Running Docker Container
-        run: sleep 5  # Add a 5-second delay
       - name: Run Docker Container
         run: sudo docker run -d -p 3000:3000 --name hello-world-flask-app harshkishorgn/hello-world-flask-app
